@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>Web Alarm</title>
+<link rel="stylesheet" href="css/styles.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>&#9200;</text></svg>">
+</head>
+<body>
+
+<div class="app">
+
+  <nav class="tabs" role="tablist">
+    <button class="tab" role="tab" data-tab="clock" aria-selected="true">Clock</button>
+    <button class="tab" role="tab" data-tab="stopwatch" aria-selected="false">
+      Stopwatch<span class="dot" data-active-dot="stopwatch"></span>
+    </button>
+    <button class="tab" role="tab" data-tab="countdown" aria-selected="false">
+      Countdown<span class="dot" data-active-dot="countdown"></span>
+    </button>
+    <button class="popout-btn" id="popout" title="Open in a small floating window">
+      <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+        <path d="M14 3h7v7M21 3l-9 9M19 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h5"
+              fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span>Pop out</span>
+    </button>
+  </nav>
+
+  <!-- ── Clock ───────────────────────────────────────────── -->
+  <section class="panel is-active" data-panel="clock">
+    <div class="readout">
+      <div class="readout-main" id="clock-12">--:--</div>
+      <div class="readout-sub" id="clock-date">&nbsp;</div>
+    </div>
+    <div class="cards">
+      <div class="card">
+        <span class="card-label">Local &middot; 24 Hour</span>
+        <span class="card-value" id="clock-24">--:--:--</span>
+      </div>
+      <div class="card">
+        <span class="card-label">Zulu &middot; UTC</span>
+        <span class="card-value" id="clock-utc">--:--:--</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Stopwatch ───────────────────────────────────────── -->
+  <section class="panel" data-panel="stopwatch">
+    <div class="readout" id="sw-readout">
+      <div class="readout-main mono"><span id="sw-elapsed-whole">00:00:00</span><small id="sw-elapsed-ms">.000</small></div>
+      <div class="readout-sub" id="sw-status">Ready</div>
+    </div>
+    <div class="controls">
+      <button class="btn btn-go" id="sw-primary">Start</button>
+      <button class="btn btn-stop" id="sw-secondary" disabled>Stop</button>
+    </div>
+    <div class="splits" id="sw-splits" hidden>
+      <table>
+        <thead>
+          <tr><th>#</th><th>Split</th><th>Total</th></tr>
+        </thead>
+        <tbody id="sw-splits-body"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── Countdown ───────────────────────────────────────── -->
+  <section class="panel" data-panel="countdown">
+    <div class="readout" id="cd-readout">
+      <div class="readout-main mono" id="cd-remaining">00:00:00</div>
+      <div class="readout-sub" id="cd-status">Ready</div>
+    </div>
+
+    <div class="field-row" id="cd-inputs">
+      <label class="field">
+        <span class="field-label">Hours</span>
+        <input type="number" id="cd-hours" min="0" max="99" step="1" value="0" inputmode="numeric">
+      </label>
+      <span class="field-colon">:</span>
+      <label class="field">
+        <span class="field-label">Minutes</span>
+        <input type="number" id="cd-minutes" min="0" max="59" step="1" value="5" inputmode="numeric">
+      </label>
+    </div>
+
+    <label class="field field-wide">
+      <span class="field-label">Alarm sound</span>
+      <span class="select-row">
+        <select id="cd-sound"></select>
+        <button class="btn btn-ghost" id="cd-preview" title="Preview this sound">Test</button>
+      </span>
+    </label>
+
+    <div class="controls">
+      <button class="btn btn-go" id="cd-primary">Start</button>
+      <button class="btn btn-stop" id="cd-secondary" disabled>Stop</button>
+    </div>
+  </section>
+
+  <p class="hint" id="hint">Timers keep running after you close the browser.</p>
+
+</div>
+
+<audio id="alarm-audio" preload="none"></audio>
+
+<script src="js/sounds.js"></script>
+<script src="js/format.js"></script>
+<script src="js/store.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
